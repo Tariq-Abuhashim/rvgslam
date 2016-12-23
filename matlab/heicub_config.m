@@ -4,10 +4,26 @@ function [options,encoders,floatingbase]=heicub_config()
 %	For iCub@heidelberg.
 %
 % Tariq Abuhashim
-% started: September 2014
 % t.abuhashim@gmail.com
 %
-% iCub - Koroibot
+% Koroibot, iCub Facility, Istituto Italiano di Tecnologia
+% Genova, Italy, 2014
+
+% Restore original <Default>Properties of root,
+% load default PATH, run STARTUP.m:
+matlabrc;
+
+% Toolbox functions
+addpath('/home/tariq/Dev/mexopencv'); % mexopencv
+addpath('/home/tariq/Dev/vlfeat-0.9.20/toolbox'); vl_setup(); % vlfeat
+addpath('./batch/common'); %rvgslam
+addpath('./batch/estimator_relative'); %rvgslam
+addpath('./common'); %rvgslam
+addpath('./mex'); %rvgslam
+addpath('./test'); %rvgslam
+
+% Robot related functions
+addpath('./heicub'); 
 
 DATA_DIR='/home/tariq/Documents/data/heicub/data_set1';
 SAVE_DIR=strcat(DATA_DIR,'/run_',datestr(now,'yyyymmdd'));
@@ -26,7 +42,8 @@ options=set_params(options,'verbose',		0	); % show verbose during data acquisiti
 [options,encoders,floatingbase]=set_images(options); % data acquisition and synchronisation
  
 options=set_params(options,'vision'); % loads the vision defaults
-options=set_params(options,'fastthreshold',	20.0); % FAST: edge detection threshold
+options=set_params(options,'kazethreshold',	0.001); % KAZE: edge detection threshold
+options=set_params(options,'kazeratio',		10);	% KAZE: matching distance between best two matches?
 options=set_params(options,'mindisp',		2.0	); % minimum disparity to accept a correspondence
 options=set_params(options,'ransac',		200	); % RANSAC: number of iterations
 options=set_params(options,'RANSAC_pixtol',	0.5	); % RANSAC: pixel tolerance
